@@ -65,6 +65,3 @@ It is up to you on how you want to structure your app. Fulfill the following req
         * show related songs with `title` and `length` (in minutes)
     * Response should be in JSON
     * Make sure to handle empty results with the correct response
-
-Something not clear, do you need more information to do the test? Have a look at existing issues
-or create a new one in case you didn't see your question yet. Don't be afraid to ask!
