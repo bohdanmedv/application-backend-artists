@@ -24,6 +24,16 @@ class Token
      */
     private $value;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Album", mappedBy="token")
+     */
+    protected $album;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Artist", mappedBy="token")
+     */
+    protected $artist;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -39,5 +49,21 @@ class Token
         $this->value = $value;
 
         return $this;
+    }
+
+    /**
+     * @return Artist
+     */
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    /**
+     * @return Album
+     */
+    public function getAlbum(): ?Album
+    {
+        return $this->album;
     }
 }

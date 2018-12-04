@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,7 +27,17 @@ class Artist
      * @ORM\OneToOne(targetEntity="App\Entity\Token", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $tokenId;
+    private $token;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Album", mappedBy="artist")
+     */
+    protected $albums;
+
+    public function __construct()
+    {
+        $this->tests = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,15 +56,23 @@ class Artist
         return $this;
     }
 
-    public function getTokenId(): ?Token
+    public function getToken(): ?Token
     {
-        return $this->tokenId;
+        return $this->token;
     }
 
-    public function setTokenId(Token $tokenId): self
+    public function setToken(Token $token): self
     {
-        $this->tokenId = $tokenId;
+        $this->token = $token;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Album[]
+     */
+    public function getAlbums(): Collection
+    {
+        return $this->albums;
     }
 }

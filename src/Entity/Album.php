@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,16 +34,21 @@ class Album
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Artist", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Artist", cascade={"persist", "remove"}, inversedBy="albums")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $artistId;
+    private $artist;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Token", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $tokenId;
+    private $token;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Song", mappedBy="album")
+     */
+    protected $songs;
 
     public function getId(): ?int
     {
@@ -84,27 +91,35 @@ class Album
         return $this;
     }
 
-    public function getArtistId(): ?Artist
+    public function getArtist(): ?Artist
     {
-        return $this->artistId;
+        return $this->artist;
     }
 
-    public function setArtistId(Artist $artistId): self
+    public function setArtist(Artist $artist): self
     {
-        $this->artistId = $artistId;
+        $this->artist = $artist;
 
         return $this;
     }
 
-    public function getTokenId(): ?Token
+    public function getToken(): ?Token
     {
-        return $this->tokenId;
+        return $this->token;
     }
 
-    public function setTokenId(Token $tokenId): self
+    public function setToken(Token $token): self
     {
-        $this->tokenId = $tokenId;
+        $this->token = $token;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Song[]
+     */
+    public function getSongs(): Collection
+    {
+        return $this->songs;
     }
 }

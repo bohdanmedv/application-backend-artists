@@ -27,10 +27,10 @@ class Song
     private $length;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Album", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Album", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $albumId;
+    private $album;
 
     public function getId(): ?int
     {
@@ -61,15 +61,20 @@ class Song
         return $this;
     }
 
-    public function getAlbumId(): ?Album
+    public function getAlbum(): ?Album
     {
-        return $this->albumId;
+        return $this->album;
     }
 
-    public function setAlbumId(Album $albumId): self
+    public function setAlbum(Album $album): self
     {
-        $this->albumId = $albumId;
+        $this->album = $album;
 
         return $this;
+    }
+
+    public function getLengthInMinutes($decimals = 2): ?float
+    {
+        return number_format($this->length / 60, $decimals);
     }
 }
